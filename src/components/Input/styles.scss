@@ -1,0 +1,52 @@
+@keyframes border-animation-focus {
+  to {
+    width: 100%;
+  }
+}
+
+.input-container {
+  position: relative;
+  width: 100%;
+
+  &-border {
+    position: relative;
+    height: 1px;
+    width: 0;
+    background-color: #7cb9ec;
+  }
+}
+
+.input-style {
+  width: calc(100% - 1rem);
+  border: none;
+  border-bottom: 1px solid #343a50;
+  background-color: #343a50;
+  color: #737d9a;
+  font-size: 1rem;
+  padding: 12px 8px;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus + .input-container-border {
+    animation: border-animation-focus 1s forwards;
+  }
+}
+
+.icon-container {
+  position: absolute;
+  height: 100%;
+  width: 40px;
+  right: 0;
+  top: 0;
+
+  &-box {
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

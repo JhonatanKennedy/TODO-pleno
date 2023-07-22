@@ -1,18 +1,26 @@
-import { ChangeEvent, InputHTMLAttributes } from "react";
+import { InputHTMLAttributes, ReactElement } from "react";
+import "./styles.scss";
 
-export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
-  value: string;
-  setValue: (value: string) => void;
+export type InputProps = Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  "className"
+> & {
+  icon?: ReactElement;
+  onClickIcon?: () => void;
 };
 
-export const Input = (props: InputProps) => {
-  const hanldleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    props.setValue(e.target.value);
-  };
-
+export const Input = ({ icon, onClickIcon, ...props }: InputProps) => {
   return (
-    <div>
-      <input value={props.value} onChange={hanldleChange} />
+    <div className="input-container">
+      <input {...props} className="input-style" />
+      <div className="input-container-border" />
+      {icon && (
+        <div className="icon-container">
+          <div className="icon-container-box" onClick={onClickIcon}>
+            {icon}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
