@@ -1,5 +1,10 @@
-function App() {
-  return <div className="teste">teste</div>;
-}
+import { Fragment } from "react";
+import { RoutesSwitch } from "./routes";
 
-export default App;
+export const App = () => {
+  return (
+    <Fragment>
+      <RoutesSwitch />
+    </Fragment>
+  );
+};
