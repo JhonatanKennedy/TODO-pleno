@@ -9,7 +9,7 @@ export type InputProps = Omit<
   onClickIcon?: () => void;
 };
 
-export const Input = ({ icon, onClickIcon, ...props }: InputProps) => {
+export const InputAdd = ({ icon, onClickIcon, ...props }: InputProps) => {
   return (
     <div className="input-container">
       <input {...props} className="input-style" />
