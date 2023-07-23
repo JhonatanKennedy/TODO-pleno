@@ -17,13 +17,21 @@
 }
 
 .input-style {
-  width: calc(100% - 1rem);
   border: none;
   border-bottom: 1px solid #343a50;
   background-color: #343a50;
-  color: #737d9a;
+  color: #f8f8f2;
   font-size: 1rem;
   padding: 12px 8px;
+  font-family: "Roboto";
+
+  &.with-icon {
+    width: calc(100% - 1rem);
+  }
+
+  &.without-icon {
+    width: 100%;
+  }
 
   &:focus {
     outline: none;

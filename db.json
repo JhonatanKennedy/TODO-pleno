@@ -1,3 +1,9 @@
 {
-  "todoList": [{ "description": "teste", "done": false }]
+  "todoList": [
+    {
+      "id": "0",
+      "description": "teste",
+      "done": false
+    }
+  ]
 }

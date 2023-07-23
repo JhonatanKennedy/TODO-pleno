@@ -1,5 +1,5 @@
 import { ChangeEvent, KeyboardEvent } from "react";
-import { InputEdit } from "../InputEdit";
+import { CustomInput } from "../CustomInput";
 
 type DescriptionType = {
   edit: boolean;
@@ -26,10 +26,12 @@ export const Description = (props: DescriptionType) => {
   }
 
   return (
-    <InputEdit
+    <CustomInput
+      style={{ padding: 0 }}
       onChange={handleEdit}
       onKeyDown={handleKeyDown}
       value={props.description}
+      autoFocus
     />
   );
 };
