@@ -40,7 +40,7 @@ export const Home = () => {
 
   const templateHome: TemplateHomeProps = {
     headerStatement: {
-      title: "Todo List Sênior",
+      title: "Todo List Pleno",
       createInput: {
         value: description,
         onChange: (e) => setDescription(e.target.value),
