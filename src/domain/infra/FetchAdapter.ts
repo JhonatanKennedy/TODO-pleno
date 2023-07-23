@@ -1,12 +1,13 @@
+import { ItemObjectValueType } from "../items/types/item";
 import HttpClient from "./httpClient";
 
 export default class FetchAdapter implements HttpClient<T> {
-  async get(url: string): Promise<T> {
+  async get(url: string): Promise<[]> {
     const response = await fetch(url);
     return response.json();
   }
 
-  async post(url: string, body: T): Promise<T> {
+  async post(url: string, body: ItemObjectValueType): Promise<T> {
     await fetch(url, {
       method: "POST",
       headers: {
@@ -16,7 +17,7 @@ export default class FetchAdapter implements HttpClient<T> {
     });
   }
 
-  async put(url: string, body: T): Promise<T> {
+  async put(url: string, body: ItemObjectValueType): Promise<T> {
     await fetch(url, {
       method: "PUT",
       headers: {

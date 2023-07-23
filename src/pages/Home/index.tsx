@@ -1,55 +1,68 @@
-import { useState } from "react";
-import { TodoItem } from "../../components/TodoItem";
+import { useEffect, useState } from "react";
 import { MainItem } from "../../domain/items/main";
+import { TemplateHome, TemplateHomeProps } from "./template";
+import { AiOutlinePlus } from "react-icons/ai";
+import { ItemEntityType } from "../../domain/items/types/item";
 
 export const Home = () => {
-  const [teste, setTeste] = useState(false);
-
   const [items] = useState(new MainItem());
+  const [description, setDescription] = useState<string>("");
+  const [doneList, setDoneList] = useState<ItemEntityType[]>([]);
+  const [undoneList, setUndoneList] = useState<ItemEntityType[]>([]);
 
-  const alou = async () => {
-    await items.createTODOItem({
-      description: "teste1232",
-      done: false,
-    });
+  const handleAddItem = async () => {
+    await items.createTODOItem({ description, done: false });
+  };
+
+  const handleEditStatus = async (item: ItemEntityType) => {
+    await items.editStatusItem(item, !item.done);
+  };
+
+  const handleEditDescription = async (
+    item: ItemEntityType,
+    description: string
+  ) => {
+    await items.editDescriptionItem(item, description);
+  };
+
+  const handleDelete = async (item: ItemEntityType) => {
+    await items.removeTODOItem(item.id);
+  };
+
+  useEffect(() => {
+    async function handleGetItems() {
+      await items.listTodoItems();
+      setDoneList(items.allData.doneList);
+      setUndoneList(items.allData.undoneList);
+    }
+    handleGetItems();
+  }, [items]);
+
+  const templateHome: TemplateHomeProps = {
+    headerStatement: {
+      title: "Todo List Sênior",
+      createInput: {
+        value: description,
+        onChange: (e) => setDescription(e.target.value),
+        hasBottomBorder: true,
+        icon: <AiOutlinePlus />,
+        onClickIcon: handleAddItem,
+      },
+    },
+    listStatement: {
+      doneTitle: "Done",
+      undoneTitle: "Undone",
+      doneItems: doneList,
+      undoneItems: undoneList,
+      onDelete: handleDelete,
+      onEditDescription: handleEditDescription,
+      onEditStatus: handleEditStatus,
+    },
   };
 
   return (
     <div style={{ margin: "20px" }}>
-      Home
-      <br />
-      <div style={{ width: "20%" }}>
-        {items.allData.items.map((el) => (
-          <div key={el.id}>{el.description}</div>
-        ))}
-        <TodoItem
-          description="teste"
-          done={teste}
-          toggleItem={() => setTeste(!teste)}
-          onDelete={alou}
-          onEdit={() => null}
-        />
-      </div>
+      <TemplateHome {...templateHome} />
     </div>
   );
 };
-
-// useEffect(() => {
-//   const handleGet = async () => {
-//     const res = await fetch.get("http://localhost:3000/todoList");
-//     console.log(res);
-//   };
-//   handleGet();
-// }, []);
-
-// const testeApi = () => {
-//   fetch.post("http://localhost:3000/todoList", {
-//     id: 1,
-//     description: "teste123",
-//     done: false,
-//   });
-// };
-
-// const deleteApi = () => {
-//   fetch.delete("http://localhost:3000/todoList/1");
-// };

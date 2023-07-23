@@ -6,12 +6,14 @@ import { RemoveItem } from "./sub-domains/remove-item";
 import { ItemEntityType, ItemObjectValueType } from "./types/item";
 
 export class MainItem {
-  private todoItems: ItemEntityType[] = [];
+  private doneList: ItemEntityType[] = [];
+  private undoneList: ItemEntityType[] = [];
   constructor(private readonly fetchAdapter = new FetchAdapter()) {}
 
   get allData() {
     return {
-      items: this.todoItems,
+      doneList: this.doneList,
+      undoneList: this.undoneList,
     };
   }
 
@@ -19,26 +21,24 @@ export class MainItem {
     const list = await this.fetchAdapter.get("http://localhost:3000/todoList");
     if (list) {
       const entityList = new ListItem();
-      this.todoItems = entityList.execute(list);
+      const lists = entityList.execute(list);
+      this.doneList = lists.doneList;
+      this.undoneList = lists.undoneList;
     }
   }
 
   async createTODOItem(item: ItemObjectValueType) {
     const createItem = new CreateItem();
-    const id = this.todoItems.length;
     if (createItem.execute(item)) {
-      await this.fetchAdapter.post("http://localhost:3000/todoList", {
-        id,
-        ...item,
-      });
+      await this.fetchAdapter.post("http://localhost:3000/todoList", item);
     }
   }
 
   async editStatusItem(item: ItemEntityType, done: boolean) {
     const editItem = new EditItem();
     if (editItem.execute(item)) {
-      await this.fetchAdapter.put("http://localhost:3000/todoList", {
-        ...item,
+      await this.fetchAdapter.put(`http://localhost:3000/todoList/${item.id}`, {
+        description: item.description,
         done,
       });
     }
@@ -47,8 +47,8 @@ export class MainItem {
   async editDescriptionItem(item: ItemEntityType, description: string) {
     const editItem = new EditItem();
     if (editItem.execute(item)) {
-      await this.fetchAdapter.put("http://localhost:3000/todoList", {
-        ...item,
+      await this.fetchAdapter.put(`http://localhost:3000/todoList/${item.id}`, {
+        done: item.done,
         description,
       });
     }

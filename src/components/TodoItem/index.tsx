@@ -26,8 +26,8 @@ export const TodoItem = (props: TodoItemProps) => {
   };
 
   const handleEdit = () => {
-    setEdit(false);
     props.onEdit(description);
+    setEdit(() => false);
   };
 
   return (
