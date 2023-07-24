@@ -10,7 +10,7 @@ export const Home = () => {
   const [description, setDescription] = useState<string>("");
   const [loadingAdd, setLoadingAdd] = useState<boolean>(false);
   const [loadingDone, setLoadingDone] = useState<boolean>(false);
-  const [loadingUndone, setLoadingUndone] = useState<boolean>(false);
+  const [loadingTodo, setLoadingTodo] = useState<boolean>(false);
 
   const handleAddItem = async () => {
     setLoadingAdd(true);
@@ -27,9 +27,9 @@ export const Home = () => {
     }
 
     if (!item.done) {
-      setLoadingUndone(true);
+      setLoadingTodo(true);
       await items.editStatusItem(item, !item.done);
-      setLoadingUndone(false);
+      setLoadingTodo(false);
     }
   };
 
@@ -44,9 +44,9 @@ export const Home = () => {
     }
 
     if (!item.done) {
-      setLoadingUndone(true);
+      setLoadingTodo(true);
       await items.editDescriptionItem(item, description);
-      setLoadingUndone(false);
+      setLoadingTodo(false);
     }
   };
 
@@ -58,9 +58,9 @@ export const Home = () => {
     }
 
     if (!item.done) {
-      setLoadingUndone(true);
+      setLoadingTodo(true);
       await items.removeTODOItem(item.id);
-      setLoadingUndone(false);
+      setLoadingTodo(false);
     }
   };
 
@@ -94,7 +94,7 @@ export const Home = () => {
       onEditDescription: handleEditDescription,
       onEditStatus: handleEditStatus,
       loadingDone,
-      loadingUndone,
+      loadingTodo,
     },
   };
 
