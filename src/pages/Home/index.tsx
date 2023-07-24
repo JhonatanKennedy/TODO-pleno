@@ -66,7 +66,9 @@ export const Home = () => {
 
   useEffect(() => {
     async function handleGetItems() {
+      setLoadingAdd(true);
       await items.listTodoItems();
+      setLoadingAdd(false);
     }
     handleGetItems();
   }, [items]);
