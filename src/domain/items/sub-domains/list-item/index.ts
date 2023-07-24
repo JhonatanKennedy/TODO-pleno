@@ -23,7 +23,7 @@ export class ListItem {
 
     return {
       doneList: this.doneList(formattedList),
-      undoneList: this.undoneList(formattedList),
+      todoList: this.undoneList(formattedList),
     };
   }
 }

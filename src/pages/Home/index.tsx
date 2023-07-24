@@ -87,9 +87,9 @@ export const Home = () => {
     },
     listStatement: {
       doneTitle: "Done",
-      undoneTitle: "Undone",
+      undoneTitle: "To do",
       doneItems: items.allData.doneList,
-      undoneItems: items.allData.undoneList,
+      undoneItems: items.allData.todoList,
       onDelete: handleDelete,
       onEditDescription: handleEditDescription,
       onEditStatus: handleEditStatus,

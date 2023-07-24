@@ -7,13 +7,13 @@ import { ItemEntityType, ItemObjectValueType } from "./types/item";
 
 export class MainItem {
   private doneList: ItemEntityType[] = [];
-  private undoneList: ItemEntityType[] = [];
+  private todoList: ItemEntityType[] = [];
   constructor(private readonly fetchAdapter = new FetchAdapter()) {}
 
   get allData() {
     return {
       doneList: this.doneList,
-      undoneList: this.undoneList,
+      todoList: this.todoList,
     };
   }
 
@@ -23,7 +23,7 @@ export class MainItem {
       const entityList = new ListItem();
       const lists = entityList.execute(list);
       this.doneList = lists.doneList;
-      this.undoneList = lists.undoneList;
+      this.todoList = lists.todoList;
     }
   }
 
