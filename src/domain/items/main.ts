@@ -31,6 +31,7 @@ export class MainItem {
     const createItem = new CreateItem();
     if (createItem.execute(item)) {
       await this.fetchAdapter.post("http://localhost:3000/todoList", item);
+      await this.listTodoItems();
     }
   }
 
@@ -41,6 +42,7 @@ export class MainItem {
         description: item.description,
         done,
       });
+      await this.listTodoItems();
     }
   }
 
@@ -51,6 +53,7 @@ export class MainItem {
         done: item.done,
         description,
       });
+      await this.listTodoItems();
     }
   }
 
@@ -59,5 +62,6 @@ export class MainItem {
     if (removeItem.execute(id)) {
       await this.fetchAdapter.delete(`http://localhost:3000/todoList/${id}`);
     }
+    await this.listTodoItems();
   }
 }

@@ -1,5 +1,6 @@
 import { TodoItem } from "../../../../components/TodoItem";
 import { ItemEntityType } from "../../../../domain/items/types/item";
+import { LoadingIcon } from "../../../../components/LoadingIcon";
 import "./styles.scss";
 
 export type ListStatementProps = {
@@ -10,36 +11,50 @@ export type ListStatementProps = {
   onDelete: (item: ItemEntityType) => void;
   onEditDescription: (item: ItemEntityType, description: string) => void;
   onEditStatus: (item: ItemEntityType) => void;
+  loadingDone: boolean;
+  loadingUndone: boolean;
 };
 
 export const ListStatement = (props: ListStatementProps) => {
   return (
     <div className="list-items">
-      <div className="list-done">
+      <div className="list-content">
         <h3>{props.doneTitle}</h3>
-        {props.doneItems.map((item, index) => (
-          <TodoItem
-            key={`todo-item-list-${index}`}
-            description={item.description}
-            done={item.done}
-            onDelete={() => props.onDelete(item)}
-            toggleItem={() => props.onEditStatus(item)}
-            onEdit={(description) => props.onEditDescription(item, description)}
-          />
-        ))}
+        {props.loadingDone ? (
+          <LoadingIcon />
+        ) : (
+          props.doneItems.map((item, index) => (
+            <TodoItem
+              key={`todo-item-list-${index}`}
+              description={item.description}
+              done={item.done}
+              onDelete={() => props.onDelete(item)}
+              toggleItem={() => props.onEditStatus(item)}
+              onEdit={(description) =>
+                props.onEditDescription(item, description)
+              }
+            />
+          ))
+        )}
       </div>
-      <div className="list-undone">
+      <div className="list-content">
         <h3>{props.undoneTitle}</h3>
-        {props.undoneItems.map((item, index) => (
-          <TodoItem
-            key={`todo-item-list-${index}`}
-            description={item.description}
-            done={item.done}
-            onDelete={() => props.onDelete(item)}
-            toggleItem={() => props.onEditStatus(item)}
-            onEdit={(description) => props.onEditDescription(item, description)}
-          />
-        ))}
+        {props.loadingUndone ? (
+          <LoadingIcon />
+        ) : (
+          props.undoneItems.map((item, index) => (
+            <TodoItem
+              key={`todo-item-list-${index}`}
+              description={item.description}
+              done={item.done}
+              onDelete={() => props.onDelete(item)}
+              toggleItem={() => props.onEditStatus(item)}
+              onEdit={(description) =>
+                props.onEditDescription(item, description)
+              }
+            />
+          ))
+        )}
       </div>
     </div>
   );

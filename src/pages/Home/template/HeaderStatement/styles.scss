@@ -1,3 +1,16 @@
 .header-container {
   width: 40%;
+  @media only screen and (max-width: 768px) {
+    width: 70%;
+  }
+}
+
+.input-box {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.width-input {
+  width: 90%;
 }

@@ -10,10 +10,8 @@ export type TemplateHomeProps = {
 export const TemplateHome = (props: TemplateHomeProps) => {
   return (
     <div className="home-container">
-      <div className="box-container">
-        <HeaderStatement {...props.headerStatement} />
-        <ListStatement {...props.listStatement} />
-      </div>
+      <HeaderStatement {...props.headerStatement} />
+      <ListStatement {...props.listStatement} />
     </div>
   );
 };

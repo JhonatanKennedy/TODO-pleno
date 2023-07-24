@@ -1,24 +1,19 @@
 {
   "todoList": [
     {
+      "description": "teste",
       "done": false,
-      "description": "a fazer 1",
-      "id": "Vng2voh"
+      "id": "primeiro-id"
     },
     {
       "done": true,
-      "description": "segundo done",
-      "id": "zpCcrku"
+      "description": "teste 1",
+      "id": "aJ17mhV"
     },
     {
+      "description": "teste",
       "done": false,
-      "description": "a fazer 2",
-      "id": "SJ9snRe"
-    },
-    {
-      "done": false,
-      "description": "a fazer3",
-      "id": "D-Km_l5"
+      "id": "minTHaE"
     }
   ]
 }

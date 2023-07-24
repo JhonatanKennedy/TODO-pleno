@@ -3,37 +3,70 @@ import { MainItem } from "../../domain/items/main";
 import { TemplateHome, TemplateHomeProps } from "./template";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ItemEntityType } from "../../domain/items/types/item";
+import "./styles.scss";
 
 export const Home = () => {
   const [items] = useState(new MainItem());
   const [description, setDescription] = useState<string>("");
-  const [doneList, setDoneList] = useState<ItemEntityType[]>([]);
-  const [undoneList, setUndoneList] = useState<ItemEntityType[]>([]);
+  const [loadingAdd, setLoadingAdd] = useState<boolean>(false);
+  const [loadingDone, setLoadingDone] = useState<boolean>(false);
+  const [loadingUndone, setLoadingUndone] = useState<boolean>(false);
 
   const handleAddItem = async () => {
+    setLoadingAdd(true);
     await items.createTODOItem({ description, done: false });
+    setDescription("");
+    setLoadingAdd(false);
   };
 
   const handleEditStatus = async (item: ItemEntityType) => {
-    await items.editStatusItem(item, !item.done);
+    if (item.done) {
+      setLoadingDone(true);
+      await items.editStatusItem(item, !item.done);
+      setLoadingDone(false);
+    }
+
+    if (!item.done) {
+      setLoadingUndone(true);
+      await items.editStatusItem(item, !item.done);
+      setLoadingUndone(false);
+    }
   };
 
   const handleEditDescription = async (
     item: ItemEntityType,
     description: string
   ) => {
-    await items.editDescriptionItem(item, description);
+    if (item.done) {
+      setLoadingDone(true);
+      await items.editDescriptionItem(item, description);
+      setLoadingDone(false);
+    }
+
+    if (!item.done) {
+      setLoadingUndone(true);
+      await items.editDescriptionItem(item, description);
+      setLoadingUndone(false);
+    }
   };
 
   const handleDelete = async (item: ItemEntityType) => {
-    await items.removeTODOItem(item.id);
+    if (item.done) {
+      setLoadingDone(true);
+      await items.removeTODOItem(item.id);
+      setLoadingDone(false);
+    }
+
+    if (!item.done) {
+      setLoadingUndone(true);
+      await items.removeTODOItem(item.id);
+      setLoadingUndone(false);
+    }
   };
 
   useEffect(() => {
     async function handleGetItems() {
       await items.listTodoItems();
-      setDoneList(items.allData.doneList);
-      setUndoneList(items.allData.undoneList);
     }
     handleGetItems();
   }, [items]);
@@ -48,20 +81,23 @@ export const Home = () => {
         icon: <AiOutlinePlus />,
         onClickIcon: handleAddItem,
       },
+      loadingAdd,
     },
     listStatement: {
       doneTitle: "Done",
       undoneTitle: "Undone",
-      doneItems: doneList,
-      undoneItems: undoneList,
+      doneItems: items.allData.doneList,
+      undoneItems: items.allData.undoneList,
       onDelete: handleDelete,
       onEditDescription: handleEditDescription,
       onEditStatus: handleEditStatus,
+      loadingDone,
+      loadingUndone,
     },
   };
 
   return (
-    <div style={{ margin: "20px" }}>
+    <div className="template-container">
       <TemplateHome {...templateHome} />
     </div>
   );
