@@ -1,4 +1,4 @@
-import FetchAdapter from "../infra/FetchAdapter";
+import { ItemRepository } from "./repository/itemRepository";
 import { CreateItem } from "./sub-domains/create-item";
 import { EditItem } from "./sub-domains/edit-item";
 import { ListItem } from "./sub-domains/list-item";
@@ -8,7 +8,7 @@ import { ItemEntityType, ItemObjectValueType } from "./types/item";
 export class MainItem {
   private doneList: ItemEntityType[] = [];
   private todoList: ItemEntityType[] = [];
-  constructor(private readonly fetchAdapter = new FetchAdapter()) {}
+  constructor(private readonly itemRepository = new ItemRepository()) {}
 
   get allData() {
     return {
@@ -18,7 +18,7 @@ export class MainItem {
   }
 
   async listTodoItems() {
-    const list = await this.fetchAdapter.get("http://localhost:3000/todoList");
+    const list = await this.itemRepository.list();
     if (list) {
       const entityList = new ListItem();
       const lists = entityList.execute(list);
@@ -30,7 +30,7 @@ export class MainItem {
   async createTODOItem(item: ItemObjectValueType) {
     const createItem = new CreateItem();
     if (createItem.execute(item)) {
-      await this.fetchAdapter.post("http://localhost:3000/todoList", item);
+      await this.itemRepository.create(item);
       await this.listTodoItems();
     }
   }
@@ -38,10 +38,13 @@ export class MainItem {
   async editStatusItem(item: ItemEntityType, done: boolean) {
     const editItem = new EditItem();
     if (editItem.execute(item)) {
-      await this.fetchAdapter.put(`http://localhost:3000/todoList/${item.id}`, {
-        description: item.description,
-        done,
-      });
+      await this.itemRepository.update(
+        {
+          description: item.description,
+          done,
+        },
+        item.id
+      );
       await this.listTodoItems();
     }
   }
@@ -49,10 +52,13 @@ export class MainItem {
   async editDescriptionItem(item: ItemEntityType, description: string) {
     const editItem = new EditItem();
     if (editItem.execute(item)) {
-      await this.fetchAdapter.put(`http://localhost:3000/todoList/${item.id}`, {
-        done: item.done,
-        description,
-      });
+      await this.itemRepository.update(
+        {
+          done: item.done,
+          description,
+        },
+        item.id
+      );
       await this.listTodoItems();
     }
   }
@@ -60,7 +66,7 @@ export class MainItem {
   async removeTODOItem(id: string) {
     const removeItem = new RemoveItem();
     if (removeItem.execute(id)) {
-      await this.fetchAdapter.delete(`http://localhost:3000/todoList/${id}`);
+      await this.itemRepository.delete(id);
     }
     await this.listTodoItems();
   }
