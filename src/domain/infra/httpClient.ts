@@ -3,9 +3,7 @@ import FetchAdapter from "./fetchAdapter";
 import HttpClientInterface from "./httpClientInterface";
 
 export class HttpClient implements HttpClientInterface {
-  constructor(
-    private readonly adapterApi = new FetchAdapter("http://localhost:3000")
-  ) {}
+  constructor(private readonly adapterApi = new FetchAdapter()) {}
 
   async get(path: string) {
     const response = await this.adapterApi.getApi(path);

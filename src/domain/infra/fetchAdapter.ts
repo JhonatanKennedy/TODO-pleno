@@ -1,16 +1,15 @@
 import { AdapterClientInterface } from "./adapterInterface";
 
 export default class FetchAdapter implements AdapterClientInterface {
-  constructor(private readonly apiURL: string) {}
+  constructor(private readonly baseURL = "http://localhost:3000") {}
 
   async getApi(path: string) {
-    const response = await fetch(this.apiURL + path);
-    // console.log(response.json().then((a) => console.log(a)));
+    const response = await fetch(this.baseURL + path);
     return response.json();
   }
 
   async postApi(path: string, body: unknown) {
-    await fetch(this.apiURL + path, {
+    await fetch(this.baseURL + path, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -20,7 +19,7 @@ export default class FetchAdapter implements AdapterClientInterface {
   }
 
   async putApi(path: string, body: unknown) {
-    await fetch(this.apiURL + path, {
+    await fetch(this.baseURL + path, {
       method: "PUT",
       headers: {
         "Content-type": "application/json",
@@ -30,7 +29,7 @@ export default class FetchAdapter implements AdapterClientInterface {
   }
 
   async deleteApi(path: string) {
-    await fetch(this.apiURL + path, {
+    await fetch(this.baseURL + path, {
       method: "DELETE",
     });
   }
